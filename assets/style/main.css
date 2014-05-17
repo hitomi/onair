@@ -1,0 +1,87 @@
+body{
+	background-color: #000;
+	color: #FFF;
+}
+
+.context{
+	max-width: 580px;
+	margin:0px auto;
+}
+
+.title{
+	width: 94%;
+	height: 82px;
+	color: white;
+	margin: 2px auto;
+	text-align: right;
+}
+.title-text{
+	display: block;
+	position: relative;
+	font-size: 32px;
+	top: 40px;
+}
+
+.anime-list{
+	width:94%;
+	margin:2px auto;
+}
+
+.cover{
+	width: 100%;
+}
+
+.anime-item{
+	margin-top:5px;
+	margin-bottom:5px;
+	text-align:right;
+	color:#BBB;
+	opacity: 0.5;
+}
+
+.anime-item:hover{
+	opacity: 1.0;
+}
+
+.anime{
+	font-size:24px;
+	color:#FFF;
+}
+
+.download{
+	display:none;
+	text-align:center;
+	line-height:28px;
+	background:#222;
+	color:#FFF;
+}
+.date{
+	position:absolute;
+	text-align:left;
+}
+
+.publish-time{
+	width:94%;
+	margin:2px auto;
+	text-align:right;
+	color:#BBB;
+	font-size:14px;
+	line-height:15px;
+}
+
+a:link {
+	text-decoration:none;
+	color: black;
+}
+a:visited {
+	text-decoration:none;
+	color: black;
+}
+a:hover {
+	text-decoration:none;
+	color: black;
+}
+a:active {
+	text-decoration:none;
+	color: black;
+}
