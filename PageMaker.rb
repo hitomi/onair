@@ -3,11 +3,6 @@
 require 'net/http'
 require 'uri.rb'
 ENV['TZ'] = "Asia/Shanghai"
-#!/usr/bin/env ruby
-# encoding: utf-8
-require 'net/http'
-require 'uri.rb'
-ENV['TZ'] = "Asia/Shanghai"
 # 线程池
 class ThreadPool
   class Worker
@@ -159,7 +154,7 @@ def makeItem(anime, cover, download, size, date, other)
 result= <<EOF
                 <div class="anime-item">
                     <div class="anime">#{anime}</div>
-                    <img class="cover" src="assets/image/#{cover}.png"/>
+                    <img class="cover" src="assets/image/onair-#{cover}.png"/>
                     <a href="#{download}">
                         <div class="download">下载 (#{size})</div>
                     </a>
@@ -179,7 +174,6 @@ page = <<EOF
         <title>onAir</title>
         <link rel="stylesheet" type="text/css" href="assets/style/normalize.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="assets/style/main.css" media="screen" />
-        <script src="assets/script/jquery.min.js"></script>
     </head>
     <body>
         <div class="context">
@@ -189,37 +183,55 @@ page = <<EOF
             <div class="anime-list">
                 #{animeItem}
             </div>
-            <div class="publish-time">GTM+8,2014-01-15 00:29</br>Processed in 5.28312221second(s),12 updated</div>
+            <div class="publish-time">GTM+8,#{time}</br>Processed in #{makeTime}second(s),#{update} updated</div>
         </div>
     </body>
-    <script type="text/javascript">
-        $('.cover').on('click',function(){
-            $(".download").hide();
-            $(".download",$(this).parent()).toggle();
-        });
-    </script>
 </html>
 EOF
     return page
 end
+# IMAGE_TABLE = {
+#     "No Game No Life" => "06",
+#     "一周的朋友" => "05",
+#     "LoveLive!2nd" => "04",
+#     "请问您今天要来点兔子吗？" => "03",
+#     "魔法科高校的劣等生" => "02",
+#     "目隐都市的演绎者" => "01"
+# }
+# ANIME_LIST = [
+#     ["No Game No Life 澄空 MP4 720p", "No Game No Life", /第(\d+)话/, "澄空学园"],
+#     ["一周的朋友 澄空 MP4 720p", "一周的朋友", /第(\d+)话/, "澄空学园"],
+#     ["LoveLive!2nd 澄空 MP4 720p", "LoveLive!2nd", /第(\d+)话/, "澄空x华盟"],
+#     ["请问您今天要来点兔子吗 澄空 MP4 720p", "请问您今天要来点兔子吗？", /第(\d+)话/, "澄空x华盟"],
+#     ["魔法科高中的劣等生 澄空 GB MP4 720p", "魔法科高校的劣等生", /\[(\d+)\]/, "澄空x华盟"],
+#     ["目隐都市的演绎者 澄空 简体 MP4 720p", "目隐都市的演绎者", /第(\d+)话/, "澄空x华盟"]
+# ]
+
 IMAGE_TABLE = {
-    "No Game No Life" => "06",
-    "一周的朋友" => "05",
-    "LoveLive!2nd" => "04",
-    "请问您今天要来点兔子吗？" => "03",
-    "魔法科高校的劣等生" => "02",
-    "目隐都市的演绎者" => "01"
+    "魔法科高校的劣等生" => "01",
+    "刀剑神域Ⅱ幽灵子弹" => "02",
+    "三坪房间的侵略者" => "03",
+    "RAIL WARS!" => "04",
+    "Free! -Eternal Summer-" => "05",
+    "花舞少女" => "06",
+    "精灵使的剑舞" => "07",
+    "搞姬日常" => "08",
+    "人生" => "09"
 }
+
 ANIME_LIST = [
-    ["No Game No Life 澄空 MP4 720p", "No Game No Life", /第(\d+)话/, "澄空学园"],
-    ["一周的朋友 澄空 MP4 720p", "一周的朋友", /第(\d+)话/, "澄空学园"],
-    ["LoveLive!2nd 澄空 MP4 720p", "LoveLive!2nd", /第(\d+)话/, "澄空x华盟"],
-    ["请问您今天要来点兔子吗 澄空 MP4 720p", "请问您今天要来点兔子吗？", /第(\d+)话/, "澄空x华盟"],
-    ["魔法科高中的劣等生 澄空 GB MP4 720p", "魔法科高校的劣等生", /第(\d+)话/, "澄空x华盟"],
-    ["目隐都市的演绎者 澄空 简体 MP4 720p", "目隐都市的演绎者", /第(\d+)话/, "澄空x华盟"]
+  ["魔法科高中的劣等生 澄空 GB MP4 720p", "魔法科高校的劣等生", /\[(\d+)\]/, "澄空x华盟"],
+  ["澄空 华盟 刀剑神域Ⅱ 简 720p MP4", "刀剑神域Ⅱ幽灵子弹", /第(\d+)话/, "澄空x华盟"],
+  ["澄空 华盟 三坪房间的侵略者 MP4 720p", "三坪房间的侵略者", /第(\d+)话/, "澄空x华盟"],
+  ["澄空 华盟 RAIL WARS! 简体720p MP4", "RAIL WARS!", /第(\d+)话/, "澄空x华盟"],
+  ["极影 Free! Eternal Summer GB_CN 720p MP4", "Free! -Eternal Summer-", /第(\d+)话/, "极影字幕社"],
+  ["澄空 华盟 TFO 花舞少女 MP4 720p", "花舞少女", /第(\d+)话/, "澄空x华盟xTFO"],
+  ["极影 精灵使的剑舞 GB 720P MP4", "精灵使的剑舞", /第(\d+)话/, "极影字幕社"],
+  ["澄空 搞姬日常 MP4 720p", "搞姬日常", /第(\d+)话/, "澄空学园"],
+  ["极影 人生 GB_CN 720p MP4", "人生", /第(\d+)集/, "极影字幕社"]
 ]
 
-
+timer = Time.now
 $animeCollet = []
 ANIME_LIST.each {|a|GAL.ktxp(*a)}
 $animeCollet.sort!{|a,b|b.time<=>a.time}
@@ -227,4 +239,4 @@ pageTemp = ""
 $animeCollet.each{|item|
     pageTemp += makeItem(item.name, IMAGE_TABLE[item.name], item.torrent, item.size, item.time.strftime("%Y-%m-%d %H:%M"), "第" + item.slice + "话, " + item.group)
 }
-open("index.html", "w+"){|io|io.write(makePage(pageTemp,Time.now.strftime("%Y-%m-%d %H:%M"),0,$animeCollet.size))}
+open("/var/www/lynn/onair/index.html", "w+"){|io|io.write(makePage(pageTemp,Time.now.strftime("%Y-%m-%d %H:%M"),Time.now-timer,$animeCollet.size))}
